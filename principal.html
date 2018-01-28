@@ -1,0 +1,1189 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+        <title>San Piter's Hospital</title>
+        <style type="text/css">
+            .jumbotron{
+                background-image: url("imagenes/hospital.jpg");
+                background-color: #7fc7c3;
+                color: white;
+            }
+            .btn-group-justified button{
+                background-color: #7397c0;
+                color: white;
+                margin-top: -10%
+            }
+
+        </style>
+    </head>
+    <body>
+        <div class="jumbotron">
+            <h1 align=center><b>San Piter's Hospital</b></h1>      
+            <p align=center>San Piter's Hospital está situado a pocos kilómetros de la ciudad de Sevilla, en la localidad de Dos Hermanas. Dispone de todas las especialidades médico quirúrgicas y de la más avanzada tecnología.</p>
+        </div>
+            
+        <div class="container">
+            <div class="btn-group btn-group-justified">
+                <div class="btn-group">
+                  <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" id="btnPaciente">Paciente<span class="caret"></span></button>
+                  <ul class="dropdown-menu" role="menu" style="background-color: #94B2D4;">
+                    <li><a href="#" id="btnAltaPaciente">Alta</a></li>
+                    <li><a href="#" id="btnModificaPaciente">Modificar</a></li>
+                  </ul>
+                </div>
+
+                <div class="btn-group">
+                  <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" id="btnMedico">Médico<span class="caret"></span></button>
+                  <ul class="dropdown-menu" role="menu" style="background-color: #94B2D4;">
+                    <li><a href="#" id="btnAltaMedico">Alta</a></li>
+                    <li><a href="#" id="btnModificaMedico">Modificar</a></li>
+                  </ul>
+                </div>
+
+                <div class="btn-group">
+                  <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" id="btnCita">Cita<span class="caret"></span></button>
+                  <ul class="dropdown-menu" role="menu" style="background-color: #94B2D4;">
+                    <li><a href="#" id="btnAltaCita">Crear</a></li>
+                    <li><a href="#" id="btnModificaCita">Anular</a></li>
+                  </ul>
+                </div>
+               
+                <div class="btn-group">
+                  <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" id="btnPrueba">Prueba médica<span class="caret"></span></button>
+                  <ul class="dropdown-menu" role="menu" style="background-color: #94B2D4;">
+                    <li><a href="#" id="btnAltaPrueba">Crear</a></li>
+                    <li><a href="#" id="btnModificaPrueba">Modificar</a></li>
+                  </ul>
+                </div>
+
+                <div class="btn-group">
+                  <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" id="btnAmbulancia">Ambulancia<span class="caret"></span></button>
+                  <ul class="dropdown-menu" role="menu" style="background-color: #94B2D4;">
+                    <li><a href="#" id="btnAltaAmbulancia">Alta</a></li>
+                    <li><a href="#" id="btnModificaAmbulancia">Modificar</a></li>
+                  </ul>
+                </div>
+
+                <div class="btn-group">
+                  <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" id="btnTratamiento">Tratamiento<span class="caret"></span></button>
+                  <ul class="dropdown-menu" role="menu" style="background-color: #94B2D4;">
+                    <li><a href="#" id="btnAltaTratamiento">Crear</a></li>
+                    <li><a href="#" id="btnModificaTratamiento">Modificar</a></li>
+                  </ul>
+                </div>
+
+                <div class="btn-group">
+                  <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" id="btnListados">Listados<span class="caret"></span></button>
+                  <ul class="dropdown-menu" role="menu" style="background-color: #94B2D4;">
+                    <li><a href="#" id="btnListadoPacientes">Listado pacientes</a></li>
+                    <li><a href="#" id="btnListadoMedicos">Listado médicos</a></li>
+                    <li><a href="#" id="btnListadoCitasPorMedicos">Listado citas por médicos</a></li>
+                    <li><a href="#" id="btnListadoPruebas">Listado Pruebas médicas existentes</a></li>
+                    <li><a href="#" id="btnListadoAmbulancias">Listado ambulancias</a></li>
+                    <li><a href="#" id="btnListadoTratamientos">Listado Tratamientos por pacientes</a></li>
+                    <!--MODIFICADO 20/01   "Para hacer prueba de alta cita"-->
+                    <li><a href="#" id="btnListadoCitas">Listado Citas</a></li>
+                  </ul>
+                </div>
+            </div>
+
+  <div id="altaPaciente">      
+    <form class="form-horizontal" name="frmAltaPaciente">
+    <fieldset>
+
+    <!-- Form Name -->
+    <legend>Alta paciente</legend>
+
+    <!-- Text input-->
+    <div class="form-group">
+      <label class="col-md-4 control-label" for="txtDNI">DNI:</label>  
+      <div class="col-md-5">
+      <input id="txtDNI" name="txtDNI" type="text" placeholder="" class="form-control input-md" required="">
+        
+      </div>
+    </div>
+
+    <!-- Text input-->
+    <div class="form-group">
+      <label class="col-md-4 control-label" for="txtSSPaciente">Num. Seguridad Social:</label>  
+      <div class="col-md-5">
+      <input id="txtSSPaciente" name="txtSSPaciente" type="text" placeholder="" class="form-control input-md" required="">
+        
+      </div>
+    </div>
+
+    <!-- Text input-->
+    <div class="form-group">
+      <label class="col-md-4 control-label" for="txtNombrePaciente">Nombre:</label>  
+      <div class="col-md-5">
+      <input id="txtNombrePaciente" name="txtNombrePaciente" type="text" placeholder="" class="form-control input-md" required="">
+        
+      </div>
+    </div>
+
+    <!-- Text input-->
+    <div class="form-group">
+      <label class="col-md-4 control-label" for="txtApellidosPaciente">Apellidos:</label>  
+      <div class="col-md-5">
+      <input id="txtApellidosPaciente" name="txtApellidosPaciente" type="text" placeholder="" class="form-control input-md" required="">
+        
+      </div>
+    </div>
+
+    <!-- Text input-->
+    <div class="form-group">
+      <label class="col-md-4 control-label" for="txtDireccionPaciente">Dirección:</label>  
+      <div class="col-md-5">
+      <input id="txtDireccionPaciente" name="txtDireccionPaciente" type="text" placeholder="" class="form-control input-md" required="">
+        
+      </div>
+    </div>
+
+    <!-- Text input-->
+    <div class="form-group">
+      <label class="col-md-4 control-label" for="txtEmailPaciente">Email:</label>  
+      <div class="col-md-5">
+      <input id="txtEmailPaciente" name="txtEmailPaciente" type="text" placeholder="" class="form-control input-md">
+        
+      </div>
+    </div>
+
+    <!-- Text input-->
+    <div class="form-group">
+      <label class="col-md-4 control-label" for="txtTelefonoPaciente">Teléfono:</label>  
+      <div class="col-md-5">
+      <input id="txtTelefonoPaciente" name="txtTelefonoPaciente" type="text" placeholder="" class="form-control input-md" required="">
+        
+      </div>
+    </div>
+
+    <!-- Button -->
+    <div class="form-group">
+      <label class="col-md-4 control-label" for="btnAceptarAltaPaciente"></label>
+      <div class="col-md-4">
+        <input type="button" value="Aceptar" id="btnAceptarAltaPaciente" name="btnAceptarAltaPaciente" class="btn btn-info"/>
+      </div>
+    </div>
+
+    </fieldset>
+    </form>
+</div>
+<div id="modificaPaciente">   
+  <form class="form-horizontal" id="frmModificaPaciente" name="frmModificaPaciente">
+    <fieldset>
+    
+    <!-- Form Name -->
+    <legend>Modificar paciente</legend>
+    
+    <!-- Select Basic -->
+    <div class="form-group">
+      <label class="col-md-4 control-label" for="ComboPacientes">DNI paciente: </label>
+      <div class="col-md-2">
+        <select id="ComboPacientes" name="ComboPacientes" class="form-control">
+        </select>
+      </div>
+    </div>
+    
+    <!-- Button -->
+    <div class="form-group">
+      <label class="col-md-4 control-label" for="btnModificarPaciente"></label>
+      <div class="col-md-4">
+        <input type="button" id="btnModificarPaciente" name="btnModificarPaciente" class="btn btn-info" value="Modificar paciente"/>
+      </div>
+    </div>
+    
+    </fieldset>
+  </form>
+</div>
+
+<div id="modificaPaciente2">   
+  <form class="form-horizontal" id="frmModificaPaciente2" name="frmModificaPaciente2">
+    <fieldset>
+    
+    <!-- Form Name -->
+    <legend>Modificar paciente seleccionado</legend>
+    
+        <!-- Text input-->
+        <div class="form-group">
+          <label class="col-md-4 control-label" for="txtDNI2">DNI:</label>  
+          <div class="col-md-5">
+          <input id="txtDNI2" name="txtDNI2" type="text" placeholder="" class="form-control input-md" required="" disabled>
+            
+          </div>
+        </div>
+    
+        <!-- Text input-->
+        <div class="form-group">
+          <label class="col-md-4 control-label" for="txtSSPaciente2">Num. Seguridad Social:</label>  
+          <div class="col-md-5">
+          <input id="txtSSPaciente2" name="txtSSPaciente2" type="text" placeholder="" class="form-control input-md" required="">
+            
+          </div>
+        </div>
+    
+        <!-- Text input-->
+        <div class="form-group">
+          <label class="col-md-4 control-label" for="txtNombrePaciente2">Nombre:</label>  
+          <div class="col-md-5">
+          <input id="txtNombrePaciente2" name="txtNombrePaciente2" type="text" placeholder="" class="form-control input-md" required="">
+            
+          </div>
+        </div>
+    
+        <!-- Text input-->
+        <div class="form-group">
+          <label class="col-md-4 control-label" for="txtApellidosPaciente2">Apellidos:</label>  
+          <div class="col-md-5">
+          <input id="txtApellidosPaciente2" name="txtApellidosPaciente2" type="text" placeholder="" class="form-control input-md" required="">
+            
+          </div>
+        </div>
+    
+        <!-- Text input-->
+        <div class="form-group">
+          <label class="col-md-4 control-label" for="txtDireccionPaciente2">Dirección:</label>  
+          <div class="col-md-5">
+          <input id="txtDireccionPaciente2" name="txtDireccionPaciente2" type="text" placeholder="" class="form-control input-md" required="">
+            
+          </div>
+        </div>
+    
+        <!-- Text input-->
+        <div class="form-group">
+          <label class="col-md-4 control-label" for="txtEmailPaciente2">Email:</label>  
+          <div class="col-md-5">
+          <input id="txtEmailPaciente2" name="txtEmailPaciente2" type="text" placeholder="" class="form-control input-md" required="">
+            
+          </div>
+        </div>
+    
+        <!-- Text input-->
+        <div class="form-group">
+          <label class="col-md-4 control-label" for="txtTelefonoPaciente2">Teléfono:</label>  
+          <div class="col-md-5">
+          <input id="txtTelefonoPaciente2" name="txtTelefonoPaciente2" type="text" placeholder="" class="form-control input-md" required="">
+            
+          </div>
+        </div>
+    
+        <!-- Button -->
+        <div class="form-group">
+          <label class="col-md-4 control-label" for="btnAceptarmodificaPaciente2"></label>
+          <div class="col-md-4">
+            <input type="button" id="btnAceptarmodificaPaciente2" name="btnAceptarmodificaPaciente2" class="btn btn-info" value="Aceptar"/>
+          </div>
+        </div>
+    
+    </fieldset>
+  </form>
+</div>
+
+<div id="altaMedico"> 
+    <form class="form-horizontal" id="frmAltaMedico" name="frmAltaMedico">
+    <fieldset>
+
+    <!-- Form Name -->
+    <legend>Alta médico</legend>
+
+    <!-- Text input-->
+    <div class="form-group">
+      <label class="col-md-4 control-label" for="txtDNIMedico">DNI:</label>  
+      <div class="col-md-5">
+      <input id="txtDNIMedico" name="txtDNIMedico" type="text" placeholder="" class="form-control input-md" required="">
+        
+      </div>
+    </div>
+
+    <!-- Text input-->
+    <div class="form-group">
+      <label class="col-md-4 control-label" for="txtSS">Num. colegiado:</label>  
+      <div class="col-md-5">
+      <input id="txtSS" name="txtSS" type="text" placeholder="" class="form-control input-md" required="">
+        
+      </div>
+    </div>
+
+    <!-- Text input-->
+    <div class="form-group">
+      <label class="col-md-4 control-label" for="txtNombreMedico">Nombre:</label>  
+      <div class="col-md-5">
+      <input id="txtNombreMedico" name="txtNombreMedico" type="text" placeholder="" class="form-control input-md" required="">
+        
+      </div>
+    </div>
+
+    <!-- Text input-->
+    <div class="form-group">
+      <label class="col-md-4 control-label" for="txtApellidosMedico">Apellidos:</label>  
+      <div class="col-md-5">
+      <input id="txtApellidosMedico" name="txtApellidosMedico" type="text" placeholder="" class="form-control input-md" required="">
+        
+      </div>
+    </div>
+
+    <!-- Text input-->
+    <div class="form-group">
+      <label class="col-md-4 control-label" for="txtDireccionMedico">Dirección:</label>  
+      <div class="col-md-5">
+      <input id="txtDireccionMedico" name="txtDireccionMedico" type="text" placeholder="" class="form-control input-md" required="">
+        
+      </div>
+    </div>
+
+    <!-- Text input-->
+    <div class="form-group">
+      <label class="col-md-4 control-label" for="txtEmailMedico">Email:</label>  
+      <div class="col-md-5">
+      <input id="txtEmailMedico" name="txtEmailMedico" type="text" placeholder="" class="form-control input-md">
+        
+      </div>
+    </div>
+
+    <!-- Text input-->
+    <div class="form-group">
+      <label class="col-md-4 control-label" for="txtTelefonoMedico">Teléfono:</label>  
+      <div class="col-md-5">
+      <input id="txtTelefonoMedico" name="txtTelefonoMedico" type="text" placeholder="" class="form-control input-md" required="">
+        
+      </div>
+    </div>
+
+    <!-- Button -->
+    <div class="form-group">
+      <label class="col-md-4 control-label" for="btnAceptarAltaMedico"></label>
+      <div class="col-md-4">
+        <input type="button" id="btnAceptarAltaMedico" name="btnAceptarAltaMedico" class="btn btn-info" value="Aceptar"/>
+      </div>
+    </div>
+
+    </fieldset>
+    </form>
+</div>
+
+<div id="modificaMedico">   
+  <form class="form-horizontal" id="frmModificaMedico" name="frmModificaMedico">
+    <fieldset>
+    
+    <!-- Form Name -->
+    <legend>Modificar médico</legend>
+    
+    <!-- Select Basic -->
+    <div class="form-group">
+      <label class="col-md-4 control-label" for="ComboMedicos">Num. colegiado médico: </label>
+      <div class="col-md-2">
+        <select id="ComboMedicos" name="ComboMedicos" class="form-control">
+        </select>
+      </div>
+    </div>
+    
+    <!-- Button -->
+    <div class="form-group">
+      <label class="col-md-4 control-label" for="btnModificarMedico"></label>
+      <div class="col-md-4">
+        <input type="button" id="btnModificarMedico" name="btnModificarMedico" class="btn btn-info" value="Modificar médico"/>
+      </div>
+    </div>
+    
+    </fieldset>
+  </form>
+</div>
+
+<div id="modificaMedico2">   
+  <form class="form-horizontal" id="frmModificaMedico2" name="frmModificaMedico2">
+    <fieldset>
+    
+    <!-- Form Name -->
+    <legend>Modificar médico seleccionado</legend>
+    
+        <!-- Text input-->
+        <div class="form-group">
+          <label class="col-md-4 control-label" for="txtDNIMedico2">DNI:</label>  
+          <div class="col-md-5">
+          <input id="txtDNIMedico2" name="txtDNIMedico2" type="text" placeholder="" class="form-control input-md" required="">
+            
+          </div>
+        </div>
+    
+        <!-- Text input-->
+        <div class="form-group">
+          <label class="col-md-4 control-label" for="txtSS2">Num. colegiado:</label>  
+          <div class="col-md-5">
+          <input id="txtSS2" name="txtSS2" type="text" placeholder="" class="form-control input-md" required="" disabled>
+            
+          </div>
+        </div>
+    
+        <!-- Text input-->
+        <div class="form-group">
+          <label class="col-md-4 control-label" for="txtNombreMedico2">Nombre:</label>  
+          <div class="col-md-5">
+          <input id="txtNombreMedico2" name="txtNombreMedico2" type="text" placeholder="" class="form-control input-md" required="">
+            
+          </div>
+        </div>
+    
+        <!-- Text input-->
+        <div class="form-group">
+          <label class="col-md-4 control-label" for="txtApellidosMedico2">Apellidos:</label>  
+          <div class="col-md-5">
+          <input id="txtApellidosMedico2" name="txtApellidosMedico2" type="text" placeholder="" class="form-control input-md" required="">
+            
+          </div>
+        </div>
+    
+        <!-- Text input-->
+        <div class="form-group">
+          <label class="col-md-4 control-label" for="txtDireccionMedico2">Dirección:</label>  
+          <div class="col-md-5">
+          <input id="txtDireccionMedico2" name="txtDireccionMedico2" type="text" placeholder="" class="form-control input-md" required="">
+            
+          </div>
+        </div>
+    
+        <!-- Text input-->
+        <div class="form-group">
+          <label class="col-md-4 control-label" for="txtEmailMedico2">Email:</label>  
+          <div class="col-md-5">
+          <input id="txtEmailMedico2" name="txtEmailMedico2" type="text" placeholder="" class="form-control input-md" required="">
+            
+          </div>
+        </div>
+    
+        <!-- Text input-->
+        <div class="form-group">
+          <label class="col-md-4 control-label" for="txtTelefonoMedico2">Teléfono:</label>  
+          <div class="col-md-5">
+          <input id="txtTelefonoMedico2" name="txtTelefonoMedico2" type="text" placeholder="" class="form-control input-md" required="">
+            
+          </div>
+        </div>
+    
+        <!-- Button -->
+        <div class="form-group">
+          <label class="col-md-4 control-label" for="btnModificarMedico2"></label>
+          <div class="col-md-4">
+            <input type="button" id="btnModificarMedico2" name="btnModificarMedico2" class="btn btn-info" value="Aceptar"/>
+          </div>
+        </div>
+
+    </fieldset>
+  </form>
+</div>
+
+
+<div id="altaCita">
+    <form class="form-horizontal" id="frmAltaCita" name="frmAltaCita">
+        <fieldset>
+        
+        <!-- Form Name -->
+        <legend>Alta cita</legend>
+        
+        <!-- Text input-->
+        <div class="form-group">
+          <label class="col-md-4 control-label" for="txtIDCita">ID cita: </label>  
+          <div class="col-md-2">
+          <input id="txtIDCita" name="txtIDCita" type="text" placeholder="" class="form-control input-md" required="">
+            
+          </div>
+        </div>
+        
+        <!-- Select Basic -->
+        <div class="form-group">
+          <label class="col-md-4 control-label" for="comboDNIPaciente">DNI paciente:</label>
+          <div class="col-md-5">
+            <select id="comboDNIPaciente" name="comboDNIPaciente" class="form-control">
+            </select>
+          </div>
+        </div>
+        
+        <!-- Select Basic -->
+        <div class="form-group">
+          <label class="col-md-4 control-label" for="comboDNIMedico">Número Colegiado:</label>
+          <div class="col-md-5">
+            <select id="comboNUMMedico" name="comboNUMMedico" class="form-control">
+            </select>
+          </div>
+        </div>
+        
+        <!-- Text input-->
+        <div class="form-group">
+          <label class="col-md-4 control-label" for="txtFecha">Fecha:</label>  
+          <div class="col-md-5">
+          <input id="txtFecha" name="txtFecha" type="date" placeholder="" class="form-control input-md" required="">
+            
+          </div>
+        </div>
+        
+        <!-- Text input-->
+        <div class="form-group">
+          <label class="col-md-4 control-label" for="txtHora">Hora:</label>  
+          <div class="col-md-5">
+          <input id="txtHora" name="txtHora" type="time" placeholder="" class="form-control input-md" required="">
+            
+          </div>
+        </div>
+        
+        <!-- Textarea -->
+        <div class="form-group">
+          <label class="col-md-4 control-label" for="txtDescripcion">Descripción:</label>
+          <div class="col-md-4">                     
+            <textarea class="form-control" id="txtDescripcion" name="txtDescripcion"></textarea>
+          </div>
+        </div>
+        
+        <!-- Button -->
+        <div class="form-group">
+          <label class="col-md-4 control-label" for="btnAceptarAltaCita"></label>
+          <div class="col-md-4">
+            <input type="button" id="btnAceptarAltaCita" name="btnAceptarAltaCita" class="btn btn-info" value="Aceptar"/>
+          </div>
+        </div>
+        
+        </fieldset>
+      </form>
+</div>
+
+<div id="modificaCita">
+    <form class="form-horizontal" id="frmModificaCita" name="frmModificaCita">
+      <fieldset>
+      
+      <!-- Form Name -->
+      <legend>Modificar cita</legend>
+      
+      <!-- Select Basic -->
+      <div class="form-group">
+        <label class="col-md-4 control-label" for="ComboCitas">ID cita: </label>
+        <div class="col-md-2">
+          <select id="ComboCitas" name="ComboCitas" class="form-control">
+          </select>
+        </div>
+      </div>
+      
+      <!-- Button -->
+      <div class="form-group">
+        <label class="col-md-4 control-label" for="btnModificarCita"></label>
+        <div class="col-md-4">
+          <input type="button" id="btnModificarCita" name="btnModificarCita" class="btn btn-info" value="Ver Cita"/>
+
+        </div>
+      </div>
+      
+      </fieldset>
+    </form>
+</div>
+
+<div id="modificaCita2">
+  <form class="form-horizontal" id="frmModificaCita2" name="frmModificaCita2">
+    <fieldset>
+    
+    <!-- Form Name -->
+    <legend>Modificar cita seleccionada</legend>
+    
+    <!-- Text input-->
+    <div class="form-group">
+      <label class="col-md-4 control-label" for="txtIDCita2">ID cita: </label>  
+      <div class="col-md-2">
+      <input id="txtIDCita2" name="txtIDCita2" type="text" placeholder="" class="form-control input-md" disabled>
+        
+      </div>
+    </div>
+    
+    <!-- Select Basic -->
+    <div class="form-group">
+      <label class="col-md-4 control-label" for="txtDNIPaciente2">DNI paciente:</label>
+      <div class="col-md-5">
+        <input id="txtDNIPaciente2" name="txtDNIPaciente2" type="text" placeholder="" class="form-control input-md" disabled> 
+      </div>
+    </div>
+    
+    <!-- Select Basic -->
+    <div class="form-group">
+      <label class="col-md-4 control-label" for="txtDNIMedico2">DNI médico:</label>
+      <div class="col-md-5">
+        <input id="txtDNIMedico2" name="txtDNIMedico2" type="text" placeholder="" class="form-control input-md" disabled> 
+      </div>
+    </div>
+    
+    <!-- Text input-->
+    <div class="form-group">
+      <label class="col-md-4 control-label" for="txtFecha2">Fecha:</label>  
+      <div class="col-md-5">
+      <input id="txtFecha2" name="txtFecha2" type="date" placeholder="" class="form-control input-md" required="" disabled>
+        
+      </div>
+    </div>
+    
+    <!-- Text input-->
+    <div class="form-group">
+      <label class="col-md-4 control-label" for="txtHora2">Hora:</label>  
+      <div class="col-md-5">
+      <input id="txtHora2" name="txtHora2" type="time" placeholder="" class="form-control input-md" required="" disabled> 
+        
+      </div>
+    </div>
+    
+    <!-- Textarea -->
+    <div class="form-group">
+      <label class="col-md-4 control-label" for="txtDescripcion2">Descripción:</label>
+      <div class="col-md-4">                     
+        <textarea class="form-control" id="txtDescripcion2" name="txtDescripcion2" disabled></textarea>
+      </div>
+    </div>
+
+    <!--MODIFICACION 21/01  MARINA-->
+    <div class="form-group">
+      <label class="col-md-4 control-label" for="txtAnulada">Anulada:</label>  
+      <div class="col-md-5">
+      <input id="txtAnulada" name="txtAnulada" type="text" placeholder="" class="form-control input-md" disabled>
+        
+      </div>
+    </div>
+    <!--FIN MODIFICACION 21/01-->
+   
+    <!-- Button -->
+    <div class="form-group">
+      <label class="col-md-4 control-label" for="btnModificarCita2"></label>
+      <div class="col-md-4">
+        <input type="button" id="btnModificarCita2" name="btnModificarCita2" class="btn btn-info" value="Anular Cita" />
+      </div>
+    </div>
+
+    </fieldset>
+  </form>
+</div>
+
+
+<div id="creaPrueba">
+  <form class="form-horizontal" id="frmCreaPrueba" name="frmCreaPrueba">
+    <fieldset>
+    
+    <!-- Form Name -->
+    <legend>Crear Prueba médica</legend>
+    
+    <!-- Text input-->
+    <div class="form-group">
+      <label class="col-md-4 control-label" for="txtIDPrueba">ID prueba:</label>  
+      <div class="col-md-2">
+      <input id="txtIDPrueba" name="txtIDPrueba" type="text" placeholder="" class="form-control input-md" required="">
+        
+      </div>
+    </div>
+    
+    <!-- Text input-->
+    <div class="form-group">
+      <label class="col-md-4 control-label" for="txtFechaPrueba">Fecha:</label>  
+      <div class="col-md-5">
+      <input id="txtFechaPrueba" name="txtFechaPrueba" type="date" placeholder="" class="form-control input-md" required="">
+        
+      </div>
+    </div>
+    
+    <!-- Text input-->
+    <div class="form-group">
+      <label class="col-md-4 control-label" for="txtHoraPrueba">Hora:</label>  
+      <div class="col-md-5">
+      <input id="txtHoraPrueba" name="txtHoraPrueba" type="time" placeholder="" class="form-control input-md" required="">
+        
+      </div>
+    </div>
+    
+    <!-- Text input-->
+    <div class="form-group">
+      <label class="col-md-4 control-label" for="txtTipoPrueba">Tipo:</label>  
+      <div class="col-md-5">
+      <input id="txtTipoPrueba" name="txtTipoPrueba" type="text" placeholder="" class="form-control input-md" required="">
+        
+      </div>
+    </div>
+    
+    <!-- Textarea -->
+    <div class="form-group">
+      <label class="col-md-4 control-label" for="txtDescripcionPrueba">Descripción:</label>
+      <div class="col-md-4">                     
+        <textarea class="form-control" id="txtDescripcionPrueba" name="txtDescripcionPrueba"></textarea>
+      </div>
+    </div>
+    
+    <!-- Select Basic -->
+    <div class="form-group">
+      <label class="col-md-4 control-label" for="comboPacientePrueba">Paciente:</label>
+      <div class="col-md-5">
+        <select id="comboPacientePrueba" name="comboPacientePrueba" class="form-control">
+        </select>
+      </div>
+    </div>
+    
+    <!-- Select Basic -->
+    <div class="form-group">
+      <label class="col-md-4 control-label" for="comboMedicoPrueba">Médico:</label>
+      <div class="col-md-5">
+        <select id="comboMedicoPrueba" name="comboMedicoPrueba" class="form-control">
+        </select>
+      </div>
+    </div>
+    
+    <!-- Button -->
+    <div class="form-group">
+      <label class="col-md-4 control-label" for="btnAceptarAltaPrueba"></label>
+      <div class="col-md-4">
+        <input type="button" value="Aceptar" id="btnAceptarAltaPrueba" name="btnAceptarAltaPrueba" class="btn btn-info" />
+      </div>
+    </div>
+    
+    </fieldset>
+    </form>    
+</div>
+
+
+<div id="modificaPrueba">   
+  <form class="form-horizontal" id="frmModificaPrueba" name="frmModificaPrueba">
+    <fieldset>
+    
+    <!-- Form Name -->
+    <legend>Modificar Prueba</legend>
+    
+    <!-- Select Basic -->
+    <div class="form-group">
+      <label class="col-md-4 control-label" for="ComboPruebas">ID prueba médica: </label>
+      <div class="col-md-2">
+        <select id="ComboPruebas" name="ComboPruebas" class="form-control">
+        </select>
+      </div>
+    </div>
+    
+    <!-- Button -->
+    <div class="form-group">
+      <label class="col-md-4 control-label" for="btnModificarPrueba"></label>
+      <div class="col-md-4">
+        <input type="button" id="btnModificarPrueba" name="btnModificarPrueba" class="btn btn-info" value="Modificar Prueba"/>
+      </div>
+    </div>
+    
+    </fieldset>
+  </form>
+</div>
+
+<div id="modificaPrueba2">   
+  <form class="form-horizontal" id="frmModificaPrueba2" name="frmModificaPrueba2">
+    <fieldset>
+    
+    <!-- Form Name -->
+    <legend>Modificar Prueba seleccionada</legend>
+
+  <!-- MODIFICACION 26/01 -->  
+    <!-- Text input-->
+    <div class="form-group">
+      <label class="col-md-4 control-label" for="txtIdPrueba2">ID Prueba</label>  
+      <div class="col-md-5">
+      <input id="txtIdPrueba2" name="txtIdPrueba2" type="text" placeholder="" class="form-control input-md" disabled>
+        
+      </div>
+    </div>
+  <!-- FIN MODIFICACION 26/01 -->
+
+    <!-- Text input-->
+    <div class="form-group">
+      <label class="col-md-4 control-label" for="txtFechaPrueba2">Fecha:</label>  
+      <div class="col-md-5">
+      <input id="txtFechaPrueba2" name="txtFechaPrueba2" type="date" placeholder="" class="form-control input-md" required="">
+        
+      </div>
+    </div>
+    
+    <!-- Text input-->
+    <div class="form-group">
+      <label class="col-md-4 control-label" for="txtHoraPrueba2">Hora:</label>  
+      <div class="col-md-5">
+      <input id="txtHoraPrueba2" name="txtHoraPrueba2" type="time" placeholder="" class="form-control input-md" required="">
+        
+      </div>
+    </div>
+    
+    <!-- Text input-->
+    <div class="form-group">
+      <label class="col-md-4 control-label" for="txtTipoPrueba2">Tipo:</label>  
+      <div class="col-md-5">
+      <input id="txtTipoPrueba2" name="txtTipoPrueba2" type="text" placeholder="" class="form-control input-md" required="">
+        
+      </div>
+    </div>
+    
+    <!-- Textarea -->
+    <div class="form-group">
+      <label class="col-md-4 control-label" for="txtDescripcionPrueba2">Descripción:</label>
+      <div class="col-md-4">                     
+        <textarea class="form-control" id="txtDescripcionPrueba2" name="txtDescripcionPrueba2"></textarea>
+      </div>
+    </div>
+    
+    <!-- Select Basic -->
+    <div class="form-group">
+      <label class="col-md-4 control-label" for="comboPacientePrueba2">Paciente:</label>
+      <div class="col-md-5">
+        <select id="comboPacientePrueba2" name="comboPacientePrueba2" class="form-control">
+        </select>
+      </div>
+    </div>
+    
+    <!-- Select Basic -->
+    <div class="form-group">
+      <label class="col-md-4 control-label" for="comboMedicoPrueba2">Médico:</label>
+      <div class="col-md-5">
+        <select id="comboMedicoPrueba2" name="comboMedicoPrueba2" class="form-control">
+        </select>
+      </div>
+    </div>
+    
+    <!-- Button -->
+    <div class="form-group">
+      <label class="col-md-4 control-label" for="btnModificarPrueba2"></label>
+      <div class="col-md-4">
+        <input type="button" id="btnModificarPrueba2" name="btnModificarPrueba2" class="btn btn-info" value="Modificar Prueba"/>
+      </div>
+    </div>
+    
+    </fieldset>
+  </form>
+</div>
+
+<div id="altaAmbulancia">
+  <form class="form-horizontal" id="frmAltaAmbulancia" name="frmAltaAmbulancia">
+    <fieldset>
+    
+    <!-- Form Name -->
+    <legend>Alta ambulancia</legend>
+    
+    <!-- Text input-->
+    <div class="form-group">
+      <label class="col-md-4 control-label" for="txtMatricula">Matrícula:</label>  
+      <div class="col-md-5">
+      <input id="txtMatricula" name="txtMatricula" type="text" placeholder="" class="form-control input-md" required="">
+        
+      </div>
+    </div>
+    
+    <!-- Text input-->
+    <div class="form-group">
+      <label class="col-md-4 control-label" for="txtCapacidad">Capacidad:</label>  
+      <div class="col-md-5">
+      <input id="txtCapacidad" name="txtCapacidad" type="text" placeholder="" class="form-control input-md" required="">
+        
+      </div>
+    </div>
+    
+    <!-- Text input-->
+    <div class="form-group">
+      <label class="col-md-4 control-label" for="txtMarca">Marca:</label>  
+      <div class="col-md-5">
+      <input id="txtMarca" name="txtMarca" type="text" placeholder="" class="form-control input-md" required="">
+        
+      </div>
+    </div>
+    
+    <!-- Button -->
+    <div class="form-group">
+      <label class="col-md-4 control-label" for="btnAceptarAltaAmbulancia"></label>
+      <div class="col-md-4">
+        <input type="button" id="btnAceptarAltaAmbulancia" name="btnAceptarAltaAmbulancia" class="btn btn-info" value="Aceptar"/>
+      </div>
+    </div>
+    
+    </fieldset>
+    </form>    
+</div>
+
+<div id="modificaAmbulancia">   
+  <form class="form-horizontal" id="frmModificaAmbulancia" name="frmModificaAmbulancia">
+    <fieldset>
+    
+    <!-- Form Name -->
+    <legend>Modificar ambulancia</legend>
+    
+    <!-- Select Basic -->
+    <div class="form-group">
+      <label class="col-md-4 control-label" for="ComboAmbulancias">Matrícula ambulancia: </label>
+      <div class="col-md-2">
+        <select id="ComboAmbulancias" name="ComboAmbulancias" class="form-control">
+        </select>
+      </div>
+    </div>
+    
+    <!-- Button -->
+    <div class="form-group">
+      <label class="col-md-4 control-label" for="btnModificarAmbulancia"></label>
+      <div class="col-md-4">
+        <input type="button" id="btnModificarAmbulancia" name="btnModificarAmbulancia" class="btn btn-info" value="Modificar ambulancia"/>
+      </div>
+    </div>
+    
+    </fieldset>
+  </form>
+</div>
+
+<div id="modificaAmbulancia2">   
+  <form class="form-horizontal" id="frmModificaAmbulancia2" name="frmModificaAmbulancia2">
+    <fieldset>
+    
+    <!-- Form Name -->
+    <legend>Modificar ambulancia seleccionada</legend>
+    
+     <!-- Text input-->
+    <div class="form-group">
+      <label class="col-md-4 control-label" for="txtMatricula">Matrícula:</label>  
+      <div class="col-md-5">
+      <input id="txtMatricula" name="txtMatricula" type="text" placeholder="" class="form-control input-md" required="" disabled>
+        
+      </div>
+    </div>
+
+    <!-- Text input-->
+    <div class="form-group">
+      <label class="col-md-4 control-label" for="txtCapacidad">Capacidad:</label>  
+      <div class="col-md-5">
+      <input id="txtCapacidad" name="txtCapacidad" type="text" placeholder="" class="form-control input-md" required="">
+        
+      </div>
+    </div>
+
+    <!-- Text input-->
+    <div class="form-group">
+      <label class="col-md-4 control-label" for="txtMarca">Marca:</label>  
+      <div class="col-md-5">
+      <input id="txtMarca" name="txtMarca" type="text" placeholder="" class="form-control input-md" required="">
+        
+      </div>
+    </div>
+    
+    <!-- Button -->
+    <div class="form-group">
+      <label class="col-md-4 control-label" for="btnModificarAmbulancia2"></label>
+      <div class="col-md-4">
+        <input type="button" id="btnModificarAmbulancia2" name="btnModificarAmbulancia2" class="btn btn-info" value="Modificar ambulancia"/>
+      </div>
+    </div>
+    
+    </fieldset>
+  </form>
+</div>
+
+<div id="creaTratamiento">
+  <form class="form-horizontal" id="frmCreaTratamiento" name="frmCreaTratamiento">
+    <fieldset>
+    
+    <!-- Form Name -->
+    <legend>Crear tratamiento</legend>
+    
+    <!-- Text input-->
+    <div class="form-group">
+      <label class="col-md-4 control-label" for="txtIDTratamiento">ID tratamiento:</label>  
+      <div class="col-md-2">
+      <input id="txtIDTratamiento" name="txtIDTratamiento" type="text" placeholder="" class="form-control input-md" required="">
+        
+      </div>
+    </div>
+    
+    <!-- Text input-->
+    <div class="form-group">
+      <label class="col-md-4 control-label" for="txtPosologia">Posología:</label>  
+      <div class="col-md-5">
+      <input id="txtPosologia" name="txtPosologia" type="text" placeholder="" class="form-control input-md" required="">
+        
+      </div>
+    </div>
+    
+    <!-- Text input-->
+    <div class="form-group">
+      <label class="col-md-4 control-label" for="txtInicio">Inicio:</label>  
+      <div class="col-md-5">
+      <input id="txtInicio" name="txtInicio" type="date" placeholder="" class="form-control input-md" required="">
+        
+      </div>
+    </div>
+    
+    <!-- Text input-->
+    <div class="form-group">
+      <label class="col-md-4 control-label" for="txtFin">Fin:</label>  
+      <div class="col-md-5">
+      <input id="txtFin" name="txtFin" type="date" placeholder="" class="form-control input-md" required="">
+        
+      </div>
+    </div>
+    
+    <!-- Select Basic -->
+    <div class="form-group">
+      <label class="col-md-4 control-label" for="ComboPaciente">Paciente:</label>
+      <div class="col-md-5">
+        <select id="ComboPaciente" name="ComboPaciente" class="form-control">
+        </select>
+      </div>
+    </div>
+    
+    <!-- Select Basic -->
+    <div class="form-group">
+      <label class="col-md-4 control-label" for="comboMedico">Médico:</label>
+      <div class="col-md-5">
+        <select id="comboMedico" name="comboMedico" class="form-control">
+        </select>
+      </div>
+    </div>
+    
+    <!-- Select Basic -->
+    <div class="form-group">
+      <label class="col-md-4 control-label" for="comboMedicamento">Medicamento:</label>
+      <div class="col-md-5">
+        <select id="comboMedicamento" name="comboMedicamento" class="form-control">
+        </select>
+      </div>
+    </div>
+    
+    <!-- Textarea -->
+    <div class="form-group">
+      <label class="col-md-4 control-label" for="txtInstrucciones">Instrucciones:</label>
+      <div class="col-md-4">                     
+        <textarea class="form-control" id="txtInstrucciones" name="txtInstrucciones"></textarea>
+      </div>
+    </div>
+    
+    <!-- Button -->
+    <div class="form-group">
+      <label class="col-md-4 control-label" for="btnAceptarCrearTratamiento"></label>
+      <div class="col-md-4">
+        <input type="button" id="btnAceptarCrearTratamiento" name="btnAceptarCrearTratamiento" class="btn btn-info" value="Aceptar"/>
+      </div>
+    </div>
+    
+    </fieldset>
+    </form>    
+</div>
+
+<div id="modificaTratamiento">   
+  <form class="form-horizontal" id="frmModificaTratamiento" name="frmModificaTratamiento">
+    <fieldset>
+    
+    <!-- Form Name -->
+    <legend>Modificar tratamiento</legend>
+    
+    <!-- Select Basic -->
+    <div class="form-group">
+      <label class="col-md-4 control-label" for="ComboTratamientos">ID tratamiento: </label>
+      <div class="col-md-2">
+        <select id="ComboTratamientos" name="ComboTratamientos" class="form-control">
+        </select>
+      </div>
+    </div>
+    
+    <!-- Button -->
+    <div class="form-group">
+      <label class="col-md-4 control-label" for="btnModificarTratamiento"></label>
+      <div class="col-md-4">
+        <input type="button" id="btnModificarTratamiento" name="btnModificarTratamiento" class="btn btn-info" value="Modificar tratamiento"/>
+      </div>
+    </div>
+    
+    </fieldset>
+  </form>
+</div>
+
+<div id="modificaTratamiento2">   
+  <form class="form-horizontal" id="frmModificaTratamiento2" name="frmModificaTratamiento2">
+    <fieldset>
+    
+    <!-- Form Name -->
+    <legend>Modificar tratamiento seleccionado</legend>
+    <!-- MODIFICACION 27/01 MARINA-->  
+    <!-- Text input-->
+    <div class="form-group">
+      <label class="col-md-4 control-label" for="txtIdTratamiento2">ID Tratamiento</label>  
+      <div class="col-md-5">
+      <input id="txtIdTratamiento2" name="txtIdTratamiento2" type="text" placeholder="" class="form-control input-md" disabled>
+        
+      </div>
+    </div>
+  <!-- FIN MODIFICACION 27/01 MARINA-->
+
+    <!-- Text input-->
+    <div class="form-group">
+      <label class="col-md-4 control-label" for="txtPosologia">Posología:</label>  
+      <div class="col-md-5">
+      <input id="txtPosologia" name="txtPosologia" type="text" placeholder="" class="form-control input-md" required="">
+        
+      </div>
+    </div>
+    
+    <!-- Text input-->
+    <div class="form-group">
+      <label class="col-md-4 control-label" for="txtInicio">Inicio:</label>  
+      <div class="col-md-5">
+      <input id="txtInicio" name="txtInicio" type="date" placeholder="" class="form-control input-md" required="">
+        
+      </div>
+    </div>
+    
+    <!-- Text input-->
+    <div class="form-group">
+      <label class="col-md-4 control-label" for="txtFin">Fin:</label>  
+      <div class="col-md-5">
+      <input id="txtFin" name="txtFin" type="date" placeholder="" class="form-control input-md" required="">
+        
+      </div>
+    </div>
+    
+    <!-- Select Basic -->
+    <div class="form-group">
+      <label class="col-md-4 control-label" for="ComboPaciente">Paciente:</label>
+      <div class="col-md-5">
+        <select id="ComboPaciente" name="ComboPaciente" class="form-control">
+        </select>
+      </div>
+    </div>
+    
+    <!-- Select Basic -->
+    <div class="form-group">
+      <label class="col-md-4 control-label" for="comboMedico">Médico:</label>
+      <div class="col-md-5">
+        <select id="comboMedico" name="comboMedico" class="form-control">
+        </select>
+      </div>
+    </div>
+    
+    <!-- Select Basic -->
+    <div class="form-group">
+      <label class="col-md-4 control-label" for="comboMedicamento">Medicamento:</label>
+      <div class="col-md-5">
+        <select id="comboMedicamento" name="comboMedicamento" class="form-control">
+        </select>
+      </div>
+    </div>
+    
+    <!-- Textarea -->
+    <div class="form-group">
+      <label class="col-md-4 control-label" for="txtInstrucciones">Instrucciones:</label>
+      <div class="col-md-4">                     
+        <textarea class="form-control" id="txtInstrucciones" name="txtInstrucciones"></textarea>
+      </div>
+    </div>
+    
+    <!-- Button -->
+    <div class="form-group">
+      <label class="col-md-4 control-label" for="btnModificarTratamiento2"></label>
+      <div class="col-md-4">
+        <input type="button" id="btnModificarTratamiento2" name="btnModificarTratamiento2" class="btn btn-info" value="Modificar tratamiento"/>
+      </div>
+    </div>
+    
+    </fieldset>
+  </form>
+</div>
+
+<div id="listados"></div>
+
+        </div>
+        <script type="text/javascript" src="js/objetos.js"></script>
+        <script type="text/javascript" src="js/codigo.js"></script>        
+    </body>
+</html>
