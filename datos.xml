@@ -57,6 +57,14 @@
             <horaC>09:22</horaC>
             <descripcionC>Está ciega</descripcionC>
         </cita>
+        <cita>
+            <idCita>2222q</idCita>
+            <dniPacienteC>78787878V</dniPacienteC>
+            <numCMedicoC>12345678</numCMedicoC>
+            <fechaC>2018/01/21</fechaC>
+            <horaC>09:22</horaC>
+            <descripcionC>Está ciegaa</descripcionC>
+        </cita>
     </citas>
     <pruebas>
         <prueba>
@@ -105,6 +113,26 @@
             <numCMedicoT>12345123</numCMedicoT>
             <nombreMedicamento>Dalcy</nombreMedicamento>
             <instrucciones>Existe un riesgo de daño renal en niños y adolescentes deshidratados.</instrucciones>
+        </tratamiento>
+        <tratamiento>
+            <idTratamiento>54Q</idTratamiento>
+            <posologia>2mg 4 veces al día</posologia>
+            <inicio>2018/01/25</inicio>
+            <fin>2018/03/25</fin>
+            <dniPacienteT>78787878V</dniPacienteT>
+            <numCMedicoT>12345123</numCMedicoT>
+            <nombreMedicamento>Paracetamol</nombreMedicamento>
+            <instrucciones>Ver prospecto medicamento</instrucciones>
+        </tratamiento>
+        <tratamiento>
+            <idTratamiento>14F</idTratamiento>
+            <posologia>4 veces al día</posologia>
+            <inicio>2018/01/28</inicio>
+            <fin>2018/03/25</fin>
+            <dniPacienteT>78787878V</dniPacienteT>
+            <numCMedicoT>12345123</numCMedicoT>
+            <nombreMedicamento>Gelocatil</nombreMedicamento>
+            <instrucciones>Tomar con las comidas</instrucciones>
         </tratamiento>
     </tratamientos>
     <medicamentos>

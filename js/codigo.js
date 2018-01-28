@@ -1,6 +1,7 @@
 var oHospital = new HOSPITAL();
 
 var oXML = null;
+var medicamentos = [];
 datosIniciales();
 
 function datosIniciales()
@@ -99,7 +100,6 @@ function datosIniciales()
 	}
 
 	var oMedicamentos = oXML.querySelectorAll("medicamento");
-	var medicamentos = [];
 	var indi = 0;
 	for (var i = 0; i < oMedicamentos.length; i++) 
     {
@@ -166,10 +166,16 @@ document.querySelector("#btnModificarTratamiento").addEventListener("click",acep
 document.querySelector("#btnModificarTratamiento2").addEventListener("click",aceptarModificacionesTratamiento,false);
 //FIN MODIFICACION MARINA 27/01
 
-//MODIFICACION VALME 28/01
-document.querySelector("#btnListadoCitasPorMedicos").addEventListener("click",listadoCitasMedico,false);
+//MODIFICACION MARINA 28/01
+document.querySelector("#btnListadoTratamientos").addEventListener("click",listadoTratamPorPaciente,false);
+document.querySelector("#btnListarPaciente").addEventListener("click",listarPaciente,false);
+//FIN MODIFICACION MARINA 28/01
 
-//FIN MODIFICACION VALME 28/01
+//MODIFICACION valme 28/01
+document.querySelector("#btnListadoCitasPorMedicos").addEventListener("click",listadoCitasPorMedico,false);
+document.querySelector("#btnListarMedico").addEventListener("click",listarMedico,false);
+//FIN MODIFICACION valme 28/01
+
 
 function altaPaciente(oEvento)
 {
@@ -522,28 +528,8 @@ function validarMedico(oEvento){
 }
 ////////////////////////////////////////////AQUI ACABAN LAS VALIDACIONES PARA LOS MEDICOS/////////////////////////////////////////////////
 
-function listadoCitasMedico(oEvento)
-{
-	var oE = oEvento || window.event;
-	ocultarformularios();
-	var cabe = document.querySelectorAll("h2");
 
-	for (var x = 0; x < cabe.length; x++) 
-	{
-		cabe[x].remove();
-	}
-	document.getElementById("listados").style.display = "block";
-	var lCMedicos = oHospital.listadoCitasMedicos();
-	var oCapa = document.getElementById("listados");
-	var cabecera = document.createElement("h2");
-	cabecera.textContent = "Listado de citas por médico";
-	oCapa.appendChild(cabecera);
-	oCapa.appendChild(lCMedicos); 
-}
-
-
-
-//MODIFICACION 28/01
+//MODIFICACION 25/01
 function listadoMedicos(oEvento)
 {
 	var oE = oEvento || window.event;
@@ -562,8 +548,7 @@ function listadoMedicos(oEvento)
 	oCapa.appendChild(cabecera);
 	oCapa.appendChild(lMedicos); 
 }
-//FIN MODIFICACION 28/01
-
+//FIN MODIFICACION 25/01
 function altaCita(oEvento)
 {
 	var oE = oEvento || window.event;
@@ -903,7 +888,6 @@ function listaPruebas(oEvento)
 	var oE = oEvento || window.event;
 	ocultarformularios();
 	var cabe = document.querySelectorAll("h2");
-	var cabe = document.querySelectorAll("h2");
 
 	for (var x = 0; x < cabe.length; x++) 
 	{
@@ -1034,10 +1018,144 @@ function aceptarModificarPaciente2()
 	var email = oForm.txtEmailPaciente2.value;
 	var tlf = oForm.txtTelefonoPaciente2.value;
 
+	//Mod ivan validarPacientes modificados
+	validarPacienteModificado();
 	var sMensaje = oHospital.modificarPaciente(nif,ss,nombre,apellidos,dir,email,tlf);
 	alert (sMensaje);
 	ocultarformularios();
 }
+//Modificacion Ivan Validacion de Pacientes modificados
+function validarPacienteModificado(oEvento)
+{
+	var oE = oEvento || window.event;
+	var bValido=true;
+	var sError = "";
+	
+	// Campo dni
+	var nif = frmModificaPaciente2.txtDNI2.value.trim();
+	frmModificaPaciente2.txtDNI2.value = frmModificaPaciente2.txtDNI2.value.trim();
+	
+	var oExpReg = /^\d{8}[a-zA-Z]$/;
+	
+	if (oExpReg.test(nif) == false)
+	{
+
+		frmModificaPaciente2.txtDNI2.classList.add("error");
+		frmModificaPaciente2.txtDNI2.focus();
+		bValido = false;
+		sError += "El dni tiene que ser numeros y 1 letra \n"; 
+	} else {
+		frmModificaPaciente2.txtDNI2.classList.remove("error");
+	}
+	//Campo SS
+	var sSS = frmModificaPaciente2.txtSSPaciente2.value.trim();
+	frmModificaPaciente2.txtSSPaciente2.value = frmModificaPaciente2.txtSSPaciente2.value.trim();
+	
+	var oExpReg = /^(\d{2})(\d{2})(\d{2})\d{5}$/; //Sólo se validará que sean 11 dígitos, pero usaremos la expresión para capturar los primeros 3 campos por separado
+	
+	if (oExpReg.test(sSS) == false){
+
+		frmModificaPaciente2.txtSSPaciente2.classList.add("error");
+		frmModificaPaciente2.txtSSPaciente2.focus();
+		bValido = false;
+		sError += "El Numero de la S.S. debe componerse por 11 digitos \n"; 
+	} else {
+		frmModificaPaciente2.txtSSPaciente2.classList.remove("error");
+	}
+	//Campo nombre
+	var sNombre = frmModificaPaciente2.txtNombrePaciente2.value.trim();
+	frmModificaPaciente2.txtNombrePaciente2.value = frmModificaPaciente2.txtNombrePaciente2.value.trim();
+	
+	var oExpReg = /^[a-z\s]{6,40}$/i; //para que coga caracteres entre 6 y40 digitos de la a a la z
+	
+	if (oExpReg.test(sNombre) == false){
+
+		frmModificaPaciente2.txtNombrePaciente2.classList.add("error");
+		frmModificaPaciente2.txtNombrePaciente2.focus();
+		bValido = false;
+		sError += "El nombre solo admite caracteres alfabéticos y entre 6 y 40 caracteres \n"; 
+	} else {
+		frmModificaPaciente2.txtNombrePaciente2.classList.remove("error");
+	}
+
+	//Campo apellidos
+	var sApe = frmModificaPaciente2.txtApellidosPaciente2.value.trim();
+	frmModificaPaciente2.txtApellidosPaciente2.value = frmModificaPaciente2.txtApellidosPaciente2.value.trim();
+	
+	var oExpReg = /^[a-z\s]{6,50}$/i; //uso la misma que la anterior ya que no sabia muy bien como enfocar el apellido asi que dejo que sean en vez de 40 , 50
+	
+	if (oExpReg.test(sApe) == false){
+
+		frmModificaPaciente2.txtApellidosPaciente2.classList.add("error");
+		frmModificaPaciente2.txtApellidosPaciente2.focus();
+		bValido = false;
+		sError += "El apellido solo puede ser alfabético ,entre 6 y 50 caracteres \n"; 
+	} else {
+		frmModificaPaciente2.txtApellidosPaciente2.classList.remove("error");
+	}
+
+	//Campo direccion
+	var sDir = frmModificaPaciente2.txtDireccionPaciente2.value.trim();
+	frmModificaPaciente2.txtDireccionPaciente2.value = frmModificaPaciente2.txtDireccionPaciente2.value.trim();
+	
+	var oExpReg = /^[a-z\s\d]{1,60}$/i; //hago lo mismo que las anteriores pero desde 1 a 60 para que coja todo el campo
+	
+	if (oExpReg.test(sDir) == false){
+
+		frmModificaPaciente2.txtDireccionPaciente2.classList.add("error");
+		frmModificaPaciente2.txtDireccionPaciente2.focus();
+		bValido = false;
+		sError += "El campo direccion debe ser de tipo alfabético \n"; 
+	} else {
+		frmModificaPaciente2.txtDireccionPaciente2.classList.remove("error");
+	}
+
+	//Campo Email
+	var sEmail = frmModificaPaciente2.txtEmailPaciente2.value.trim();
+	frmModificaPaciente2.txtEmailPaciente2.value = frmModificaPaciente2.txtEmailPaciente2.value.trim();
+	
+	oExpReg = /^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,3})$/i;
+	
+	if (oExpReg.test(sEmail) == false){
+
+		frmModificaPaciente2.txtEmailPaciente2.classList.add("error");
+		//if(bValido)     Marina dice ¿Para qué?
+		frmModificaPaciente2.txtEmailPaciente2.focus();
+		bValido = false;
+		sError += "El email debe ser válido \n"; 
+	} else {
+		frmModificaPaciente2.txtEmailPaciente2.classList.remove("error");
+	}
+
+	//Campo Telefono
+	var sTlf = frmModificaPaciente2.txtTelefonoPaciente2.value.trim();
+	frmModificaPaciente2.txtTelefonoPaciente2.value = frmModificaPaciente2.txtTelefonoPaciente2.value.trim();
+	
+	oExpReg = /^[9|6|7][0-9]{8}$/;//comprueba si el numero es correcto en españa , si empieza por 9 6 o 7 y tiene 9 cifras
+	
+	if (oExpReg.test(sTlf) == false){
+
+		frmModificaPaciente2.txtTelefonoPaciente2.classList.add("error");
+		//if(bValido)            Marina dice ¿Para qué ?
+		frmModificaPaciente2.txtTelefonoPaciente2.focus();
+		bValido = false;
+		sError += "El teléfono debe ser un número de 9 dígitos \n";
+	} else {
+		frmModificaPaciente2.txtTelefonoPaciente2.classList.remove("error");
+	}
+
+	//si no funciona alguna parte de las validaciones devuelve false , con lo que en el alert, muestra un error, si hubiera salido bien return true y vuelve a ejecutarse el programa por donde iba
+	if (bValido == false)
+	{
+		alert(sError);
+		oE.preventDefault();
+	}
+}
+
+	/*var sMensaje = oHospital.modificarPaciente(nif,ss,nombre,apellidos,dir,email,tlf);
+	alert (sMensaje);
+	ocultarformularios();
+}*/
 
 //MODIFICACIÓN 26/01
 function modificarMedico(oEvento)
@@ -1094,10 +1212,142 @@ function aceptarModificarMedico2()
 	var email = oForm.txtEmailMedico2.value;
 	var tlf = oForm.txtTelefonoMedico2.value;
 
+	validarMedicoModificado();
 	var sMensaje = oHospital.modificarMedico(medicoNif,numCole,nombre,apellidos,dir,email,tlf);
 	alert (sMensaje);
 	ocultarformularios();
 }
+//Modificacion Ivan Validar Medicos modificados
+function validarMedicoModificado(oEvento)
+{
+	var oE = oEvento || window.event;
+	var bValido=true;
+	var sError = "";
+	
+	// Campo dni medico
+	var nif = frmModificaMedico2.txtDNIMedico2.value.trim();
+	frmModificaMedico2.txtDNIMedico2.value = frmModificaMedico2.txtDNIMedico2.value.trim();
+	
+	var oExpReg = /^\d{8}[a-zA-Z]$/;
+	
+	if (oExpReg.test(nif) == false)
+	{
+
+		frmModificaMedico2.txtDNIMedico2.classList.add("error");
+		frmModificaMedico2.txtDNIMedico2.focus();
+		bValido = false;
+		sError += "El dni tiene que ser numeros y 1 letra \n"; 
+	} else {
+		frmModificaMedico2.txtDNIMedico2.classList.remove("error");
+	}
+	//Campo numColegiado
+	var numColegiado = frmModificaMedico2.txtSS2.value.trim();
+	frmModificaMedico2.txtSS2.value = frmModificaMedico2.txtSS2.value.trim();
+	
+	var oExpReg = /^\d{8}$/; //para que contenga 8 digitos del 0 al 9 cada uno
+	
+	if (oExpReg.test(numColegiado) == false)
+	{
+
+		frmModificaMedico2.txtSS2.classList.add("error");
+		frmModificaMedico2.txtSS2.focus();
+		bValido = false;
+		sError += "El Numero de colegiado debe contener 8 nùmeros \n"; 
+	} else {
+		frmModificaMedico2.txtSS2.classList.remove("error");
+	}
+	//Campo nombre
+	var sNombre = frmModificaMedico2.txtNombreMedico2.value.trim();
+	frmModificaMedico2.txtNombreMedico2.value = frmModificaMedico2.txtNombreMedico2.value.trim();
+	
+	var oExpReg = /^[a-z\s]{6,40}$/i; //para que coga caracteres entre 6 y40 digitos de la a a la z
+	
+	if (oExpReg.test(sNombre) == false){
+
+		frmModificaMedico2.txtNombreMedico2.classList.add("error");
+		frmModificaMedico2.txtNombreMedico2.focus();
+		bValido = false;
+		sError += "El nombre solo admite caracteres alfabéticos y entre 6 y 40 caracteres \n"; 
+	} else {
+		frmModificaMedico2.txtNombreMedico2.classList.remove("error");
+	}
+
+	//Campo apellidos
+	var sApe = frmModificaMedico2.txtApellidosMedico2.value.trim();
+	frmModificaMedico2.txtApellidosMedico2.value = frmModificaMedico2.txtApellidosMedico2.value.trim();
+	
+	var oExpReg = /^[a-z\s]{6,50}$/i; //uso la misma que la anterior ya que no sabia muy bien como enfocar el apellido asi que dejo que sean en vez de 40 , 50
+	
+	if (oExpReg.test(sApe) == false){
+
+		frmModificaMedico2.txtApellidosMedico2.classList.add("error");
+		frmModificaMedico2.txtApellidosMedico2.focus();
+		bValido = false;
+		sError += "El apellido solo puede ser alfabético ,entre 6 y 50 caracteres \n"; 
+	} else {
+		frmModificaMedico2.txtApellidosMedico2.classList.remove("error");
+	}
+
+	//Campo direccion
+	var sDir = frmModificaMedico2.txtDireccionMedico2.value.trim();
+	frmModificaMedico2.txtDireccionMedico2.value = frmModificaMedico2.txtDireccionMedico2.value.trim();
+	
+	var oExpReg = /^[a-z\s]{1,60}$/i; //hago lo mismo que las anteriores pero desde 1 a 60 para que coja todo el campo
+	
+	if (oExpReg.test(sDir) == false){
+
+		frmModificaMedico2.txtDireccionMedico2.classList.add("error");
+		frmModificaMedico2.txtDireccionMedico2.focus();
+		bValido = false;
+		sError += "El campo direccion debe ser de tipo alfabético \n"; 
+	} else {
+		frmModificaMedico2.txtDireccionMedico2.classList.remove("error");
+	}
+
+	//Campo Email
+	var sEmail = frmModificaMedico2.txtEmailMedico2.value.trim();
+	frmModificaMedico2.txtEmailMedico2.value = frmModificaMedico2.txtEmailMedico2.value.trim();
+	
+	oExpReg = /^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,3})$/i;
+	
+	if (oExpReg.test(sEmail) == false){
+
+		frmModificaMedico2.txtEmailMedico2.classList.add("error");
+		//if(bValido)   Marina Dice ¿Para qué?
+		frmModificaMedico2.txtEmailMedico2.focus();
+		bValido = false;
+		sError += "El email debe ser válido \n"; 
+	} else {
+		frmModificaMedico2.txtEmailMedico2.classList.remove("error");
+	}
+
+	//Campo Telefono
+	var sTlf = frmModificaMedico2.txtTelefonoMedico2.value.trim();
+	frmModificaMedico2.txtTelefonoMedico2.value = frmModificaMedico2.txtTelefonoMedico2.value.trim();
+	
+	oExpReg = /^[9|6|7][0-9]{8}$/;//comprueba si el numero es correcto en españa , si empieza por 9 6 o 7 y tiene 9 cifras
+	
+	if (oExpReg.test(sTlf) == false){
+
+		frmModificaMedico2.txtTelefonoMedico2.classList.add("error");
+		//if(bValido)  Marina Dice ¿Para qué?
+		frmModificaMedico2.txtTelefonoMedico2.focus();
+		bValido = false;
+		sError += "El teléfono debe ser un número de 9 dígitos \n"; 
+	} else {
+		frmModificaMedico2.txtTelefonoMedico2.classList.remove("error");
+	}
+
+	if (bValido == false){
+		alert(sError);
+		oE.preventDefault();
+	}
+
+}
+	/*var sMensaje = oHospital.modificarMedico(medicoNif,numCole,nombre,apellidos,dir,email,tlf);
+	alert (sMensaje);
+	ocultarformularios();
+}*/
 
 //MODIFICACION 27/01 MARINA
 
@@ -1174,11 +1424,105 @@ function modificarPrueba2()
 	var paciente = oForm2.comboPacientePrueba2.value;
 	var medico = oForm2.comboMedicoPrueba2.value;
 	
+	validarPruebaModificada();
 	var oPrueba = new Prueba(id,fecha,hora,tipo,descripcion,paciente,medico)
 	var sMensaje = oHospital.modificarPrueba(oPrueba);
 	alert (sMensaje);
 	ocultarformularios();
 }
+//Modificacion Ivan validar la prueba modificada
+function validarPruebaModificada(oEvento)
+{
+	var oE = oEvento || window.event;
+	var bValido=true;
+	var sError = "";
+	//Campo id
+	var id=frmModificaPrueba2.txtIdPrueba2.value.trim();
+	frmModificaPrueba2.txtIdPrueba2.value = frmModificaPrueba2.txtIdPrueba2.value.trim();
+
+	var oExpReg = /^[A-Z]{2}\d{1}$/i;
+	
+	if (oExpReg.test(id) == false)
+	{
+		frmModificaPrueba2.txtIdPrueba2.classList.add("error");
+		frmModificaPrueba2.txtIdPrueba2.focus();
+		bValido = false;
+		sError = "El id debe ser 2 letras mayusculas y un numero \n"; 
+	} else {
+		frmModificaPrueba2.txtIdPrueba2.classList.remove("error");
+	}
+	//Campo fecha
+	var diaForm=frmModificaPrueba2.txtFechaPrueba2.value.trim();
+	var diaActual=new Date().getDate();//Aqui tengo el dia del mes de hoy
+	var diaForm2=new Date(diaForm).getDate();//aqui tengo el dia del mes del formulario
+	var mesActual=new Date().getMonth();
+	//alert(mesActual);
+	//alert(fechaForm2);
+	if (diaForm2 < diaActual) //Si eldia es menor a la fecha actual esfalso, no puedes tener una prueba ayer cuando has ido hoy al medico
+	{
+		bValido = false;
+		sError = "La fecha no puede ser inferior a la de hoy \n";
+	}else{
+		frmModificaPrueba2.txtFechaPrueba2.classList.remove("error");
+	}
+
+	//Campo hora
+	var hora=frmModificaPrueba2.txtHoraPrueba2.value.trim();
+	frmModificaPrueba2.txtHoraPrueba2.value = frmModificaPrueba2.txtHoraPrueba2.value.trim();
+
+	var oExpReg= /^([0-9]|0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$/;
+
+	if (oExpReg.test(hora) == false)
+	{
+		frmModificaPrueba2.txtHoraPrueba2.classList.add("error");
+		frmModificaPrueba2.txtHoraPrueba2.focus();
+		bValido = false;
+		sError = "Formato de fecha incompleto \n"; 
+	} else {
+		frmModificaPrueba2.txtHoraPrueba2.classList.remove("error");
+	}
+	//Campo tipo
+	var tipo=frmModificaPrueba2.txtTipoPrueba2.value.trim();
+	frmModificaPrueba2.txtTipoPrueba2.value = frmModificaPrueba2.txtTipoPrueba2.value.trim();
+
+	var oExpReg= /^[aA-zZ\s]{1,15}$/i;
+
+	if (oExpReg.test(tipo) == false)
+	{
+		frmModificaPrueba2.txtTipoPrueba2.classList.add("error");
+		frmModificaPrueba2.txtTipoPrueba2.focus();
+		bValido = false;
+		sError = "Demasiados caracteres en el campo tipo \n"; 
+	} else {
+		frmModificaPrueba2.txtTipoPrueba2.classList.remove("error");
+	}
+	//Campo descripcion
+	var descripcion=frmModificaPrueba2.txtDescripcionPrueba2.value.trim();
+	frmModificaPrueba2.txtDescripcionPrueba2.value = frmModificaPrueba2.txtDescripcionPrueba2.value.trim();
+
+	var oExpReg= /^[aA-zZ\s]{1,145}$/i;
+
+	if (oExpReg.test(descripcion) == false)
+	{
+		frmModificaPrueba2.txtDescripcionPrueba2.classList.add("error");
+		frmModificaPrueba2.txtDescripcionPrueba2.focus();
+		bValido = false;
+		sError = "Has superado los 145 caracteres permitidos en este campo \n"; 
+	} else {
+		frmModificaPrueba2.txtDescripcionPrueba2.classList.remove("error");
+	}
+
+
+	if (bValido == false){
+		alert(sError);
+		oE.preventDefault();
+	}
+}
+	/*var oPrueba = new Prueba(id,fecha,hora,tipo,descripcion,paciente,medico)
+	var sMensaje = oHospital.modificarPrueba(oPrueba);
+	alert (sMensaje);
+	ocultarformularios();
+}*/
 
 function altaTratamiento(oEvento)
 {
@@ -1323,6 +1667,89 @@ function validaTratamiento(oEvento){
 }
 //FIN MODIFICACION IVAN VALIDACION
 
+//MODIFICACION MARINA 28/01
+function listadoTratamPorPaciente(oEvento)
+{
+	var oE = oEvento || window.event;
+	ocultarformularios();
+	document.getElementById("listadoPorPaciente").style.display = "block";
+	frmListadoPaciente.reset();
+	//select de pacientes
+	var oSelecc = document.frmListadoPaciente.ComboPacientes;
+	oSelecc.options.length = 0;
+	var sPacientes = oHospital.listaPacientes();
+	for (var i=0;i<sPacientes.length;i++)
+	{
+		var oOption = document.createElement("option");
+		oOption.text = sPacientes[i];
+		oSelecc.appendChild(oOption);
+	}
+}
+
+function listadoCitasPorMedico(oEvento)
+{
+	var oE = oEvento || window.event;
+	ocultarformularios();
+	document.getElementById("listadoPorMedico").style.display = "block";
+	frmListadoMedico.reset();
+	//select de pacientes
+	var oSelecc = document.frmListadoMedico.ComboMedicos;
+	oSelecc.options.length = 0;
+	var sMedicos = oHospital.listaMedicos();
+	for (var i=0;i<sMedicos.length;i++)
+	{
+		var oOption = document.createElement("option");
+		oOption.text = sMedicos[i];
+		oSelecc.appendChild(oOption);
+	}
+}
+
+function listarPaciente(oEvento)
+{
+	var oE = oEvento || window.event;
+	var paciente = document.frmListadoPaciente.ComboPacientes.value;
+	ocultarformularios();
+	
+	var cabe = document.querySelectorAll("h2");
+	for (var x = 0; x < cabe.length; x++) 
+	{
+		cabe[x].remove();
+	}
+	/*var letra = document.querySelectorAll("h3");
+	for (var x = 0; x < letra.length; x++) 
+	{
+		letra[x].remove();
+	}*/
+	document.getElementById("listados").style.display = "block";
+	var lPruebas=oHospital.listadoTratamientosPaciente(paciente);
+	var oCapa = document.getElementById("listados");
+	var cabecera = document.createElement("h2");
+	cabecera.textContent = "Listado de Tratamientos del Paciente: "+paciente;
+	oCapa.appendChild(cabecera);
+	oCapa.appendChild(lPruebas); 
+}
+//FIN MODIFICACION MARINA 28/01
+
+function listarMedico(oEvento)
+{
+	var oE = oEvento || window.event;
+	var medico = document.frmListadoMedico.ComboMedicos.value;
+	ocultarformularios();
+	
+	var cabe = document.querySelectorAll("h2");
+	for (var x = 0; x < cabe.length; x++) 
+	{
+		cabe[x].remove();
+	}
+
+	document.getElementById("listados").style.display = "block";
+	var lCitas=oHospital.listadoCitasMedico(medico);
+	var oCapa = document.getElementById("listados");
+	var cabecera = document.createElement("h2");
+	cabecera.textContent = "Listado de Citas del médico: "+medico;
+	oCapa.appendChild(cabecera);
+	oCapa.appendChild(lCitas); 
+}
 
 
 function modificarTratamiento(oEvento)
@@ -1415,11 +1842,95 @@ function aceptarModificacionesTratamiento()
 	var medicamento = oForm.comboMedicamento;
 	var instrucciones = oForm.txtInstrucciones.value.trim();
 	
+	//MODIFICACION para validar un tratamiento modificado
+	validarTratamientoModificado();
 	var oTratamiento = new Tratamiento(tratamientoID,posologia,inicio,fin,paciente,medico,medicamento,instrucciones);
 	var sMensaje = oHospital.modificarTratamiento(oTratamiento);
 	alert (sMensaje);
 	ocultarformularios();
 }
+//MODIFICACION VALIDACION MODIFICADO
+function validarTratamientoModificado(oEvento)
+{
+	var oE = oEvento || window.event;
+	var bValido=true;
+	var sError = "";
+	//Campo id
+	var id=frmModificaTratamiento2.txtIdTratamiento2.value.trim();
+	frmModificaTratamiento2.txtIdTratamiento2.value = frmModificaTratamiento2.txtIdTratamiento2.value.trim();
+
+	var oExpReg = /^\d{2}[A-Z]{1}$/; //2 numeros y una letra en mayusculas
+	
+	if (oExpReg.test(id) == false)
+	{
+		frmModificaTratamiento2.txtIdTratamiento2.classList.add("error");
+		frmModificaTratamiento2.txtIdTratamiento2.focus();
+		bValido = false;
+		sError += "El id debe ser 2 numeros y una letra \n"; 
+	} else {
+		frmModificaTratamiento2.txtIdTratamiento2.classList.remove("error");
+	}
+	//Campo posologia
+	var posologia=frmModificaTratamiento2.txtPosologia.value.trim();
+	frmModificaTratamiento2.txtPosologia.value = frmModificaTratamiento2.txtPosologia.value.trim();
+
+	var oExpReg = /^[A-Z\s\d]{6,40}$/i;
+	
+	if (oExpReg.test(posologia) == false)
+	{
+		frmModificaTratamiento2.txtPosologia.classList.add("error");
+		frmModificaTratamiento2.txtPosologia.focus();
+		bValido = false;
+		sError += "La posología debe contener entre 6 y 40 caracteres \n"; 
+	} else {
+		frmModificaTratamiento2.txtPosologia.classList.remove("error");
+	}
+
+	//Campo fechas
+	var fechaInicio=new Date(frmModificaTratamiento2.txtInicio.value);
+	var fechaFin=new Date(frmModificaTratamiento2.txtFin.value);
+	var resultado=fechaInicio-fechaFin;
+	if (resultado>0) 
+	{
+		frmModificaTratamiento2.txtInicio.classList.add("error");	
+		frmModificaTratamiento2.txtFin.classList.add("error");
+		frmModificaTratamiento2.txtInicio.focus();
+		bValido = false;
+		sError+="Fecha no permitida, el inicio no puede ser menor que el final del tratamiento";
+	}
+	else
+	{
+		frmModificaTratamiento2.txtInicio.classList.remove("error");	
+		frmModificaTratamiento2.txtFin.classList.remove("error");
+	}
+
+	//Campo instrucciones /*SE PODRIA DEJAR SIN VALIDAR PORQUE LO HACE BIEN AL DETECTAR AL PRINCIPIO EL IF DEL CAMPO VACIO , PERO LO VALIDO POR SI INTENTAS METER ALGO QUE NO SEAN LETRAS Y NUMEROS*/
+	var instrucciones=frmModificaTratamiento2.txtInstrucciones.value.trim();
+	frmModificaTratamiento2.txtInstrucciones.value = frmModificaTratamiento2.txtInstrucciones.value.trim();
+
+	var oExpReg = /^[A-Z\s\d]{1,140}$/i; //Letras mayusculas o minusculas de hasta 140 caracteres para especificar el  tratamiento
+	
+	if (oExpReg.test(instrucciones) == false)
+	{
+		frmModificaTratamiento2.txtInstrucciones.classList.add("error");
+		frmModificaTratamiento2.txtInstrucciones.focus();
+		bValido = false;
+		sError += "Las instrucciones deben contener entre 1 y 140 caracteres \n"; 
+	} else 
+	{
+		frmModificaTratamiento2.txtInstrucciones.classList.remove("error");
+	}
+
+	if (bValido == false){
+		alert(sError);
+		oE.preventDefault();
+	}
+}
+	/*var oTratamiento = new Tratamiento(tratamientoID,posologia,inicio,fin,paciente,medico,medicamento,instrucciones);
+	var sMensaje = oHospital.modificarTratamiento(oTratamiento);
+	alert (sMensaje);
+	ocultarformularios();
+}*/
 
 function modificarPaciente2(oEvento)
 {
@@ -1428,14 +1939,6 @@ function modificarPaciente2(oEvento)
 	document.getElementById("modificaPaciente2").style.display = "block";
 	frmModificaPaciente2.reset();
 }
-
-/*function modificarPrueba2(oEvento)
-{
-	var oE = oEvento || window.event;
-	ocultarformularios();
-	document.getElementById("modificaPrueba2").style.display = "block";
-	frmModificaPrueba2.reset();
-}*/
 
 function modificarAmbulancia(oEvento)
 {
@@ -1482,10 +1985,74 @@ function aceptarModificarAmbulancia2()
 	var marca = oForm.txtMarca.value;
 	var matricula = oForm.txtMatricula.value;
 
+	validarAmbulanciaModificada();
 	var sMensaje = oHospital.modificarAmbulancia(matricula,marca,capacidad);
 	alert (sMensaje);
 	ocultarformularios();
 }
+
+function validarAmbulanciaModificada(oEvento)
+{
+	var oE = oEvento || window.event;
+	var bValido=true;
+	var sError = "";
+
+	//Campo matricula
+	/**/
+	var matricula=frmModificaAmbulancia2.txtMatricula.value.trim();
+	frmModificaAmbulancia2.txtMatricula.value = frmModificaAmbulancia2.txtMatricula.value.trim();
+
+	var oExpReg = /^\d{4}[A-Z]{3}$/i;
+	
+	if (oExpReg.test(matricula) == false)
+	{
+		frmModificaAmbulancia2.txtMatricula.classList.add("error");
+		frmModificaAmbulancia2.txtMatricula.focus();
+		bValido = false;
+		sError = "La matricula debe ser válida segun el formato antiguo o el europeo \n"; 
+	} else {
+		frmModificaAmbulancia2.txtMatricula.classList.remove("error");
+	}
+	//Campo Capacidad
+	var capacidad=frmModificaAmbulancia2.txtCapacidad.value.trim();
+	frmModificaAmbulancia2.txtCapacidad.value = frmModificaAmbulancia2.txtCapacidad.value.trim();
+
+	var oExpReg = /^\d{1}[0-7]$/i;
+	
+	if (oExpReg.test(matricula) == false)
+	{
+		frmModificaAmbulancia2.txtCapacidad.classList.add("error");
+		frmModificaAmbulancia2.txtCapacidad.focus();
+		bValido = false;
+		sError = "La matricula debe ser válida segun el formato antiguo o el europeo \n"; 
+	} else {
+		frmModificaAmbulancia2.txtCapacidad.classList.remove("error");
+	}
+	//Campo Marca
+	var marca=frmModificaAmbulancia2.txtMarca.value.trim();
+	frmModificaAmbulancia2.txtMarca.value = frmModificaAmbulancia2.txtMarca.value.trim();
+
+	var oExpReg = /^[aA-zZ\s]{1,60}$/i;
+	
+	if (oExpReg.test(matricula) == false)
+	{
+		frmModificaAmbulancia2.txtMarca.classList.add("error");
+		frmModificaAmbulancia2.txtMarca.focus();
+		bValido = false;
+		sError = "La matricula debe ser válida segun el formato antiguo o el europeo \n"; 
+	} else {
+		frmModificaAmbulancia2.txtMarca.classList.remove("error");
+	}
+
+	if (bValido == false){
+		alert(sError);
+		oE.preventDefault();
+	}
+}
+	/*var sMensaje = oHospital.modificarAmbulancia(matricula,marca,capacidad);
+	alert (sMensaje);
+	ocultarformularios();
+}*/
 
 
 
@@ -1549,6 +2116,16 @@ function ocultarformularios()
 
 	document.getElementById("modificaTratamiento2").style.display = "none";
 	frmModificaTratamiento.reset();
+
+	//MODIFICACION MARINA 28/01
+	document.getElementById("listadoPorPaciente").style.display = "none";
+	frmListadoPaciente.reset();
+	//FIN MODIFICACION MARINA 28/01
+
+	//MODIFICACION valme 28/01
+	document.getElementById("listadoPorMedico").style.display = "none";
+	frmListadoMedico.reset();
+	//FIN MODIFICACION valme 28/01
 
 	//LISTADOS:
 	document.getElementById("listados").style.display = "none";

@@ -196,20 +196,8 @@ class HOSPITAL
 
         return oTabla;
     }
-
-    /*MODIFICACION VALME 28/01*/
-    listadoCitasMedicos()
-    {
-        var tablas = document.querySelectorAll(".tablas");
-
-        for (var x = 0; x < tablas.length; x++) 
-        {
-            tablas[x].remove();
-        }
-        ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    }
-
-    //FIN MODIFICACION 25/01
+    //FIN MODIFICACION 25/01 
+    
     listaPacientes()
     {
         var sPacientes = new Array();
@@ -235,6 +223,23 @@ class HOSPITAL
             if(this._personas[j] instanceof Medico)
             {
                 sMedicos[iIndi] = this._personas[j].numColegiado;
+                iIndi++;
+            }
+        }
+        sMedicos.sort();
+       
+        return sMedicos;
+    }
+
+    listaMedicos2()
+    {
+        var sMedicos = new Array();
+        var iIndi = 0;
+        for(var j=0;j<this._personas.length;j++)
+        {
+            if(this._personas[j] instanceof Medico)
+            {
+                sMedicos[iIndi] = this._personas[j].nif;
                 iIndi++;
             }
         }
@@ -474,32 +479,12 @@ class HOSPITAL
         var oFila = oTHead.insertRow(-1);
         //var oTH = document.createElement("th");
         var oTH = "";
-        for (var i=0;i<tCabeceras.length;i++)    //Modificacion Marina. Pongo este for y la tabla para hacer más legible el código.
+        for (var i=0;i<tCabeceras.length;i++)    
         {
             oTH = document.createElement("th");
             oTH.textContent = tCabeceras[i];
             oFila.appendChild(oTH);
         }
-        /*oTH.textContent = "ID";
-        oFila.appendChild(oTH);
-        oTH = document.createElement("th");
-        oTH.textContent = "Paciente";
-        oFila.appendChild(oTH);
-        oTH = document.createElement("th");
-        oTH.textContent = "Médico";
-        oFila.appendChild(oTH);
-        oTH = document.createElement("th");
-        oTH.textContent = "Fecha";
-        oFila.appendChild(oTH);
-        oTH = document.createElement("th");
-        oTH.textContent = "Hora";
-        oFila.appendChild(oTH);
-        oTH = document.createElement("th");
-        oTH.textContent = "Descripción";
-        oFila.appendChild(oTH);
-        oTH = document.createElement("th");
-        oTH.textContent = "Anulada";
-        oFila.appendChild(oTH);*/
 
         for(var i=0;i<this._citas.length;i++)
         {
@@ -621,14 +606,6 @@ class HOSPITAL
             oTH.textContent = tCabeceras[i];
             oFila.appendChild(oTH);
         }
-        /*oTH.textContent = "Matrícula";
-        oFila.appendChild(oTH);
-        oTH = document.createElement("th");
-        oTH.textContent = "Capacidad";
-        oFila.appendChild(oTH);
-        oTH = document.createElement("th");
-        oTH.textContent = "Marca";
-        oFila.appendChild(oTH);*/
 
         for(var i=0;i<this._ambulancias.length;i++)
         {
@@ -759,27 +736,7 @@ class HOSPITAL
             oTH.textContent = tCabeceras[i];
             oFila.appendChild(oTH);
         }
-        /*oTH.textContent = "ID";
-        oFila.appendChild(oTH);
-        oTH = document.createElement("th");
-        oTH.textContent = "Fecha";
-        oFila.appendChild(oTH);
-        oTH = document.createElement("th");
-        oTH.textContent = "Hora";
-        oFila.appendChild(oTH);
-        oTH = document.createElement("th");
-        oTH.textContent = "Tipo";
-        oFila.appendChild(oTH);
-        oTH = document.createElement("th");
-        oTH.textContent = "Descripcion";
-        oFila.appendChild(oTH);
-        oTH = document.createElement("th");
-        oTH.textContent = "Paciente";
-        oFila.appendChild(oTH);
-        oTH = document.createElement("th");
-        oTH.textContent = "Medico";
-        oFila.appendChild(oTH);*/
-
+        
         for(var i=0;i<this._pruebas.length;i++)
         {
                 this._pruebas[i].toHTMLRow(oTabla);   
@@ -788,6 +745,80 @@ class HOSPITAL
         return oTabla;
     }
     //FIN MODIFICADO POR IVÁN 25/01
+    //MODIFICACION MARINA 28/01
+    listadoTratamientosPaciente(pacienteID)
+    {
+        var tablas = document.querySelectorAll(".tablas");
+        
+        for (var x = 0; x < tablas.length; x++) 
+        {
+            tablas[x].remove();
+        }
+        var tCabeceras = new Array("ID","Posologia","Fecha Inicio","Fecha Fin","Médico","Medicamento","Instrucciones");
+        var oTabla = document.createElement("table");
+        oTabla.setAttribute("border","2");
+        oTabla.setAttribute("align","center");
+        oTabla.classList.add("tablas");
+        var oTHead = oTabla.createTHead();
+        oTHead.style.backgroundColor = "#94B2D4";
+        var oFila = oTHead.insertRow(-1);
+        //var oTH = document.createElement("th");
+        var oTH = "";
+        for (var i=0;i<tCabeceras.length;i++)   
+        {
+            oTH = document.createElement("th");
+            oTH.textContent = tCabeceras[i];
+            oFila.appendChild(oTH);
+        }
+        for(var i=0;i<this._tratamientos.length;i++)
+        {
+            if(this._tratamientos[i].paciente == pacienteID)
+            {
+                this._tratamientos[i].toHTMLRowPac(oTabla);   
+            }
+        }
+
+        return oTabla;
+    }
+    //FIN MODIFICACION MARINA 28/01
+
+    //MODIFICACION valme 28/01
+    listadoCitasMedico(med)
+    {
+        var tablas = document.querySelectorAll(".tablas");
+        
+        for (var x = 0; x < tablas.length; x++) 
+        {
+            tablas[x].remove();
+        }
+        var tCabeceras = new Array("ID","Paciente","Médico","Fecha","Hora","Descripción","Anulada");
+        var oTabla = document.createElement("table");
+        oTabla.setAttribute("border","2");
+        oTabla.setAttribute("align","center");
+        oTabla.classList.add("tablas");
+        var oTHead = oTabla.createTHead();
+        oTHead.style.backgroundColor = "#94B2D4";
+        var oFila = oTHead.insertRow(-1);
+        //var oTH = document.createElement("th");
+        var oTH = "";
+        for (var i=0;i<tCabeceras.length;i++)   
+        {
+            oTH = document.createElement("th");
+            oTH.textContent = tCabeceras[i];
+            oFila.appendChild(oTH);
+        }
+        for(var j=0;j<this._citas.length;j++)
+        {
+            if(this._citas[j].medico == med)
+            {
+                //alert("entro en medico igual medico");
+                this._citas[j].toHTMLRow(oTabla);   
+            }
+        }
+        return oTabla;
+    }
+    //FIN MODIFICACION valme 28/01
+
 }
 
 //persona:
@@ -813,17 +844,6 @@ Persona.prototype.toHTMLRow=function(oTabla)
         oCelda.textContent = tCeldas[i];
         oCelda = oFila.insertCell(-1);
     }
-    /*oCelda.textContent = this.nif;
-    oCelda = oFila.insertCell(-1);
-    oCelda.textContent = this.nombre;
-    oCelda = oFila.insertCell(-1);
-    oCelda.textContent = this.apellidos;
-    oCelda = oFila.insertCell(-1);
-    oCelda.textContent = this.direccion;
-    oCelda = oFila.insertCell(-1);
-    oCelda.textContent = this.email;
-    oCelda = oFila.insertCell(-1);
-    oCelda.textContent = this.telefono;*/
     return oFila;
 }
 // FIN MODIFICACION 25/01
@@ -849,19 +869,6 @@ Medico.prototype.toHTMLRow = function(oTabla)
         oCelda.textContent = tCeldas[i];
         oCelda = oFila.insertCell(-1);
     }
-    /*oCelda.textContent = this.nif;
-    oCelda = oFila.insertCell(-1);
-    oCelda.textContent = this.nombre;
-    oCelda = oFila.insertCell(-1);
-    oCelda.textContent = this.apellidos;
-    oCelda = oFila.insertCell(-1);
-    oCelda.textContent = this.direccion;
-    oCelda = oFila.insertCell(-1);
-    oCelda.textContent = this.email;
-    oCelda = oFila.insertCell(-1);
-    oCelda.textContent = this.telefono;
-    oCelda = oFila.insertCell(-1);
-    oCelda.textContent = this.numColegiado;*/
     return oFila;
 }
 // FIN MODIFICACION 25/01
@@ -887,19 +894,6 @@ Paciente.prototype.toHTMLRow = function(oTabla)
         oCelda.textContent = tCeldas[i];
         oCelda = oFila.insertCell(-1);
     }
-    /*oCelda.textContent = this.nif;
-    oCelda = oFila.insertCell(-1);
-    oCelda.textContent = this.nombre;
-    oCelda = oFila.insertCell(-1);
-    oCelda.textContent = this.apellidos;
-    oCelda = oFila.insertCell(-1);
-    oCelda.textContent = this.direccion;
-    oCelda = oFila.insertCell(-1);
-    oCelda.textContent = this.email;
-    oCelda = oFila.insertCell(-1);
-    oCelda.textContent = this.telefono;
-    oCelda = oFila.insertCell(-1);
-    oCelda.textContent = this.numSS;*/
     return oFila;
 }
 // FIN MODIFICACION 25/01
@@ -927,22 +921,6 @@ Ambulancia.prototype.toHTMLRow = function(oTabla)
 }
 //FIN MODIFICACION IVAN 25-01
 
-//MODIFICACION 25/01
-/*Prueba.prototype.toHTMLRow=function(oTabla)
-{
-    // Cuerpo de la tabla
-    var oTBody = oTabla.createTBody();
-    var oFila = oTBody.insertRow(-1);
-    var oCelda = oFila.insertCell(-1);
-    oCelda.textContent = this.matricula;
-    oCelda = oFila.insertCell(-1);
-    oCelda.textContent = this.capacidad;
-    oCelda = oFila.insertCell(-1);
-    oCelda.textContent = this.marca;
-    return oFila;
-}
-// FIN MODIFICACION 25/01*/
-
 //Prueba:
 function Prueba(id,sFecha,sHora,sTipo,sDescripcion,iPaciente,iMedico)
 {
@@ -969,19 +947,7 @@ Prueba.prototype.toHTMLRow=function(oTabla)
         oCelda.textContent = tCeldas[i];
         oCelda = oFila.insertCell(-1);
     }
-    /*oCelda.textContent = this.ID;
-    oCelda = oFila.insertCell(-1);
-    oCelda.textContent = this.fecha;
-    oCelda = oFila.insertCell(-1);
-    oCelda.textContent = this.hora;
-    oCelda = oFila.insertCell(-1);
-    oCelda.textContent = this.tipo;
-    oCelda = oFila.insertCell(-1);
-    oCelda.textContent = this.descripcion;
-    oCelda = oFila.insertCell(-1);
-    oCelda.textContent = this.paciente;
-    oCelda = oFila.insertCell(-1);
-    oCelda.textContent = this.medico;*/
+    
  
     return oFila;
 }
@@ -1013,25 +979,25 @@ Tratamiento.prototype.toHTMLRow=function(oTabla)
         oCelda.textContent = tCeldas[i];
         oCelda = oFila.insertCell(-1);
     }
-    /*oCelda.textContent = this.ID;
-    oCelda = oFila.insertCell(-1);
-    oCelda.textContent = this.posologia;
-    oCelda = oFila.insertCell(-1);
-    oCelda.textContent = this.inicio;
-    oCelda = oFila.insertCell(-1);
-    oCelda.textContent = this.fin;
-    oCelda = oFila.insertCell(-1);
-    oCelda.textContent = this.medico;
-    oCelda = oFila.insertCell(-1);
-    oCelda.textContent = this.paciente;
-    oCelda = oFila.insertCell(-1);
-    oCelda.textContent = this.medicamento;
-    oCelda = oFila.insertCell(-1);
-    oCelda.textContent = this.instrucciones;*/
     return oFila;
 }
 // FIN MODIFICACION 25/01
-
+// MODIFICACION MARINA 28/01
+Tratamiento.prototype.toHTMLRowPac=function(oTabla)
+{
+    var tCeldas = new Array(this.ID,this.posologia,this.inicio,this.fin,this.medico,this.medicamento,this.instrucciones);
+    // Cuerpo de la tabla
+    var oTBody = oTabla.createTBody();
+    var oFila = oTBody.insertRow(-1);
+    var oCelda = oFila.insertCell(-1);
+    for (var i=0;i<tCeldas.length;i++)     //Modificacion Marina. Pongo este for y la tabla para hacer más legible el código.
+    {
+        oCelda.textContent = tCeldas[i];
+        oCelda = oFila.insertCell(-1);
+    }
+    return oFila;
+}
+//FIN MODIFICACION MARINA 28/01
 //Medicamento
 function Medicamento(sNombre,sProspecto,iId)
 {
@@ -1055,7 +1021,7 @@ Medicamento.prototype.toHTMLRow=function(oTabla)
 }
 // FIN MODIFICACION 25/01
 
-function Cita(iId,sNifMedico,sNifPaciente,sFecha,sHora,sDescripcion)
+function Cita(iId,sNifPaciente,sNifMedico,sFecha,sHora,sDescripcion)
 {
 	this.id = iId;
 	this.medico = sNifMedico;
@@ -1078,21 +1044,9 @@ Cita.prototype.toHTMLRow=function(oTabla)
         oCelda.textContent = tCeldas[i];
         oCelda = oFila.insertCell(-1);
     }
-    /*oCelda.textContent = this.id;
-    oCelda = oFila.insertCell(-1);
-    oCelda.textContent = this.medico;
-    oCelda = oFila.insertCell(-1);
-    oCelda.textContent = this.paciente;
-    oCelda = oFila.insertCell(-1);
-    oCelda.textContent = this.fecha;
-    oCelda = oFila.insertCell(-1);
-    oCelda.textContent = this.hora;
-    oCelda = oFila.insertCell(-1);
-    oCelda.textContent = this.descripcion;
-    oCelda = oFila.insertCell(-1);
-    oCelda.textContent = this.anulada;*/
     return oFila;
 }
 // FIN MODIFICACION 25/01
+
 
 
