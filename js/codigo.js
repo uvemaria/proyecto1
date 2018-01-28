@@ -1582,7 +1582,7 @@ function aceptarAltaTratamiento(oEvento)
 	else
 	{
 		validaTratamiento();
-		oTratamiento = new Tratamiento(sId,sPosologia,dInicio,dFin,sPaciente,sMedico,sMedicamento,sInstrucciones);
+		oTratamiento = new Tratamiento(sId,sPosologia,dInicio,dFin,sMedico,sPaciente,sMedicamento,sInstrucciones);
 		sMensaje = oHospital.altaTratamiento(oTratamiento);
 		altaTratamiento();
 	}
