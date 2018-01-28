@@ -791,7 +791,7 @@ class HOSPITAL
         {
             tablas[x].remove();
         }
-        var tCabeceras = new Array("ID","Paciente","Médico","Fecha","Hora","Descripción","Anulada");
+        var tCabeceras = new Array("ID","Médico","Paciente","Fecha","Hora","Descripción","Anulada");
         var oTabla = document.createElement("table");
         oTabla.setAttribute("border","2");
         oTabla.setAttribute("align","center");
